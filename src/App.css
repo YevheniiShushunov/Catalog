@@ -1,38 +1,139 @@
-.App {
-  text-align: center;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body{
+  background-color:brown;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.login-message {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 400px;
+  color:white;
+  font-size: 18px;
+
+}
+
+.header-button{
+  position: relative;
+  float: right;
+  margin-right: 40px;
+  margin-top: -50px;
+}
+
+.header {
+  width: 100%;
+  height: 90px;
+  background-color: rgb(231, 76, 20);
+}
+
+.header-title {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  color: antiquewhite;
+  font-size: 33px;
+
+  text-decoration: none;
+}
+
+.signin {
+  display: flex;
+  justify-content: center;
+}
+
+.addCart {
+  display: flex;
+  justify-content: center;
+}
+
+.card-block {
+  background-color:rgb(250, 117, 40);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.discribe {
+  resize: vertical;
+  min-height: 50px;
+  width: 300px;
+  border-radius: 5px;
+}
+
+
+
+.item-title {
+  text-align: center;
+  color: beige;
+}
+
+.item-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas: 
+    "header header"
+    "row";
+
+  height: 100%;
+  justify-content: center;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.item-header{
+  grid-area: header;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.item-card{
+  border: 1px solid rgb(247, 56, 56);
+  padding: 20px;
+  background-color:rgb(250, 117, 40);
+}
+
+.item-button{
+  text-align: center;
+}
+
+.item-discribe{
+  word-wrap: break-word;
+}
+
+.item-img {
+  max-width: 200px;
+  min-height: 200px;
+  min-height: 200px;
+  max-height: 200px;
+}
+
+.btn {
+  background-color: rgba(255, 255, 0, 0.938);
+  display: inline-block;
+  text-decoration: none;
+  padding: 6px 15px;
+  margin: 10px;
+  max-width: 200px;
+  max-height: 50px;
+  
+  color:black;
+
+  vertical-align: top;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.2;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn:hover {
+   cursor: pointer;
+   background-color: rgba(223, 223, 24, 0.774);
+}
+
+.delete-btn {
+  background-color:rgb(228, 60, 60);
+  color:white;
 }
