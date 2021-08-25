@@ -109,6 +109,29 @@ body{
   max-height: 200px;
 }
 
+.redact-card {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+}
+
+.redact-card.active {
+  transform: scale(1);
+}
+
+.redact-card__content{
+  padding: 20px;
+  border-radius: 12px;
+  background-color:rgb(231, 76, 20); 
+}
+
 .btn {
   background-color: rgba(255, 255, 0, 0.938);
   display: inline-block;

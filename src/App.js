@@ -19,9 +19,8 @@ function App() {
             <PrivateRoute exact path='/' component={Catalog} />
             <Route exact path='/login' component={Login} />
             <Route path='/AddItem' component={AddItem} />
-            <Route exact path='/RedactItem:id?' component={RedactItem}/>
-          </Switch>
-          
+            <Route exact path='/RedactItem' component={RedactItem}/>
+          </Switch> 
         </Router>
       </AuthProvider>
     </div>

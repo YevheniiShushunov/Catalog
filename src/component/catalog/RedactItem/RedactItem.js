@@ -2,49 +2,50 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../../../firebase';
 import { RequestState } from '../../requests/RequestState';
+import '../../../App.css'
 
-export const RedactItem = ({name, price, discribe, img}) => {
-    const [cardData, setCardData] = useState({
-        title: name,
-        price: price,
-        discribe: discribe,
-        image: img,
-        discount: false
-    });
+export const RedactItem = ({active, onActive, itemData, update, onData}) => {
+       
+    const id = itemData.id
+
+    console.log(itemData);
     
     const [ rsStatus, setRsStatus] = useState(RequestState.none);
     const history = useHistory();
 
     
-
+    console.log(itemData.title);
+    
     const handleChangeName = (e) => {
-        return setCardData({...cardData, title: e.target.value})
+        return onData({...itemData, title: e.target.value})
     }
 
     const handleChangePrice = (e) => {
         if(e.target.value >= 0){
-            return setCardData({...cardData, price: e.target.value});
+            return onData({...itemData, price: e.target.value});
         }
     }
 
     const handleChangeText = (e) => {
-        return setCardData({...cardData, discribe: e.target.value})
+        return onData({...itemData, discribe: e.target.value})
     }
 
     const handleAddFile = (e) => {
-        return setCardData({...cardData, image: e.target.value})
+        return onData({...itemData, image: e.target.value})
     }
-    console.log(cardData)
+    
+
+
     
     const handlePostData = async () => {
-        if(cardData.title.length < 20 || cardData.title.length > 60 ){alert('Название должно быть не менее 20 символов и не более 60' )}
-        if(cardData.discribe.length > 200){alert('больше 200 символов')}
-        if(cardData.price === ''){alert('поле Цена обязательно к заполнению')}
-        if(rsStatus !== RequestState.request && cardData.title.length > 20 && cardData.title.length < 60 && cardData.discribe.length < 200 && cardData.price !== '' ){
+        if(itemData.title.length < 20 || itemData.title.length > 60 ){alert('Название должно быть не менее 20 символов и не более 60' )}
+        if(itemData.discribe.length > 200){alert('больше 200 символов')}
+        if(itemData.price === ''){alert('поле Цена обязательно к заполнению')}
+        if(rsStatus !== RequestState.request && itemData.title.length > 20 && itemData.title.length < 60 && itemData.discribe.length < 200 && itemData.price !== '' ){
             try{
                 setRsStatus(RequestState.request);
-                await db.collection("Catalog").doc().update(cardData);
-                setCardData({
+                await db.collection("Catalog").doc(id).update(itemData);
+                onData({
                     title: '',
                     price: '',
                     discribe: '',
@@ -52,31 +53,34 @@ export const RedactItem = ({name, price, discribe, img}) => {
                     discount: false
                 });
                 setRsStatus(RequestState.success);
-                history.push('/')
+                onActive(false);
+                update();
+
             }catch(e){
                 console.log(e);
             }  
         }
         console.log("data sended");
     }
-
+    
+    
+    
     return (
-        <div className="addCart">
-            <div className="card-block">
+        <div className={active ? "redact-card active" : "redact-card"}>
+            <div className="redact-card__content">
                 <div>Add new item</div>
                 <div>
-                    Title: <input placeholder="name" value={cardData.title} onChange={handleChangeName} />
+                    Title: <input placeholder="name" value={itemData.title} onChange={handleChangeName} />
+                </div>
+                
+                <div>
+                    Price : <input value={itemData.price} type='number' onChange={handleChangePrice} />
                 </div>
                 <div>
-                    Photo: <input placeholder="photo" type='file' value={cardData.image} onChange={handleAddFile} />
+                    Discribe: <textarea value={itemData.discribe} onChange={handleChangeText} className="discribe"/>
                 </div>
-                <div>
-                    Price : <input value={cardData.price} type='number' onChange={handleChangePrice} />
-                </div>
-                <div>
-                    Discribe: <textarea value={cardData.discribe} onChange={handleChangeText} className="discribe"/>
-                </div>
-                <button  onClick={handlePostData} className='btn'>Add Cart</button>
+                <button  onClick={handlePostData} className='btn'>Save Change</button>
+                <button onClick={() => onActive(false)} className="btn">Close window</button>
             </div>
         </div>
     )

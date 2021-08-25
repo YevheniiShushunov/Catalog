@@ -12,7 +12,6 @@ export default function Header() {
     return (
         <>
             <div className="header">
-                {/* <div className='header-title'>Header Title</div> */}
                 <Link to="/" className='header-title'>Header Title</Link> 
                 <div className="header-button">
                     <button onClick={() => logout() && history.push('/')} className="btn">Sign out</button>

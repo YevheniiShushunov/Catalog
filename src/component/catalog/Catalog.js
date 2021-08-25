@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../../firebase';
-import Header from './header/Header';
 import { ItemCollection } from '../itemCollection/ItemCollection';
 import { RequestState } from '../requests/RequestState';
 import { Preloader } from '../preloader/Preloader';
@@ -27,7 +26,6 @@ const Catalog = () => {
                 setCatalog(cat);
                 setRsState((prevState) => ({...prevState, get: Request.succes}));
             }catch(e){
-                console.log(e)
                 setRsState((prevState) => ({...prevState, get: Request.fail}))
             }
         }
@@ -47,12 +45,16 @@ const Catalog = () => {
         } 
     }
 
+    const callUpdate = () => {
+        getCatalogData()
+    }
+
     useEffect(() => getCatalogData(), []);
 
         return (
         <div className="catalog">
             <Preloader inProgress={rsState.get === RequestState.request && rsState.delete === RequestState.request}>
-                <ItemCollection catalog={catalog} onDelete={deleteCatalog} />
+                <ItemCollection catalog={catalog} onDelete={deleteCatalog} update={callUpdate}/>
             </Preloader>
             
         </div>
