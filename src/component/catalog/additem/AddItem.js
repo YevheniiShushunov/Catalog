@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { db } from '../../../firebase';
+import { db, storageRef} from '../../../firebase';
 import { RequestState } from '../../requests/RequestState';
 
 export const AddItem = () => {
@@ -8,9 +8,10 @@ export const AddItem = () => {
         title: '',
         price: '',
         discribe: '',
-        image: '',
         discount: false
     });
+    const [img, setImg] = useState()
+    console.log(img)
     
     const [ rsStatus, setRsStatus] = useState(RequestState.none);
     const history = useHistory();
@@ -32,7 +33,7 @@ export const AddItem = () => {
     }
 
     const handleAddFile = (e) => {
-        return setCardData({...cardData, image: e.target.value})
+        return setImg(e.target.files[0])
     }
     console.log(cardData)
     
@@ -44,11 +45,12 @@ export const AddItem = () => {
             try{
                 setRsStatus(RequestState.request);
                 await db.collection("Catalog").doc().set(cardData);
+                const fileRef = storageRef.child(img.name);
+                await fileRef.put(img)
                 setCardData({
                     title: '',
                     price: '',
                     discribe: '',
-                    image: '',
                     discount: false
                 });
                 setRsStatus(RequestState.success);
@@ -68,7 +70,7 @@ export const AddItem = () => {
                     Title: <input placeholder="name" value={cardData.title} onChange={handleChangeName} />
                 </div>
                 <div>
-                    Photo: <input placeholder="photo" type='file' value={cardData.image} onChange={handleAddFile} />
+                    Photo: <input placeholder="photo" type='file' onChange={handleAddFile} />
                 </div>
                 <div>
                     Price : <input value={cardData.price} type='number' onChange={handleChangePrice} />

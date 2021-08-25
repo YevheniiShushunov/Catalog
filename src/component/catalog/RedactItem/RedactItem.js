@@ -7,13 +7,9 @@ import '../../../App.css'
 export const RedactItem = ({active, onActive, itemData, update, onData}) => {
        
     const id = itemData.id
-
     console.log(itemData);
-    
     const [ rsStatus, setRsStatus] = useState(RequestState.none);
-    const history = useHistory();
 
-    
     console.log(itemData.title);
     
     const handleChangeName = (e) => {
@@ -33,10 +29,7 @@ export const RedactItem = ({active, onActive, itemData, update, onData}) => {
     const handleAddFile = (e) => {
         return onData({...itemData, image: e.target.value})
     }
-    
 
-
-    
     const handlePostData = async () => {
         if(itemData.title.length < 20 || itemData.title.length > 60 ){alert('Название должно быть не менее 20 символов и не более 60' )}
         if(itemData.discribe.length > 200){alert('больше 200 символов')}

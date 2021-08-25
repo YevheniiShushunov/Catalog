@@ -3,7 +3,7 @@ import '../../App.css'
 import { Link } from 'react-router-dom'
 import  photo  from '../assets/img/nophoto.png'
 import { RedactItem } from '../catalog/RedactItem/RedactItem'
-import { Preloader } from '../preloader/Preloader';
+
 
 export const ItemCollection = ({catalog = [], onDelete, update}) => {
     const [modalActive, setModalActive] = useState(false);
