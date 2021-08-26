@@ -15,7 +15,7 @@ export const ItemCollection = ({catalog = [], onDelete, update}) => {
     })
     const [load, setLoad] = useState(true)
 
-    const openModal = (titleData, priceData, discribeData, idData) => {
+    const openModal = (titleData, priceData, discribeData, idData, imgData) => {
         setLoad(true)
         setItemData((prevData) => ({...prevData,
             id: idData,
@@ -48,7 +48,7 @@ export const ItemCollection = ({catalog = [], onDelete, update}) => {
                 <div className='item-container'>
                     {catalog.map(itm =>(
                         <div key={itm.id} className='item-card'>
-                            <img className="item item-img" src={photo} alt="default" />
+                            <img className="item item-img" src={!itm.data().img ? photo: itm.data().img} alt="default" />
                             <div className='item'>Title*: {itm.data().title}</div>
                             <div className='item'>Price*: {itm.data().price}$</div>
                             <div className='item-discribe'>About: {itm.data().discribe}</div>
