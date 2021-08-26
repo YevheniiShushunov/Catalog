@@ -6,17 +6,14 @@ import { RequestState } from '../../requests/RequestState';
 export const AddItem = () => {
     const [cardData, setCardData] = useState({
         title: '',
+        img: null,
         price: '',
         discribe: '',
         discount: false
     });
-    const [img, setImg] = useState()
-    console.log(img)
     
     const [ rsStatus, setRsStatus] = useState(RequestState.none);
     const history = useHistory();
-
-    
 
     const handleChangeName = (e) => {
         return setCardData({...cardData, title: e.target.value})
@@ -32,10 +29,14 @@ export const AddItem = () => {
         return setCardData({...cardData, discribe: e.target.value})
     }
 
-    const handleAddFile = (e) => {
-        return setImg(e.target.files[0])
+    const handleAddFile = async (e) => {
+        const file = e.target.files[0];
+        console.log(file.name);
+        const fileRef = storageRef.child(file.name);
+        await fileRef.put(file);
+        const readyfile = await fileRef.getDownloadURL();
+        setCardData({...cardData, img: readyfile});             
     }
-    console.log(cardData)
     
     const handlePostData = async () => {
         if(cardData.title.length < 20 || cardData.title.length > 60 ){alert('Название должно быть не менее 20 символов и не более 60' )}
@@ -45,14 +46,13 @@ export const AddItem = () => {
             try{
                 setRsStatus(RequestState.request);
                 await db.collection("Catalog").doc().set(cardData);
-                const fileRef = storageRef.child(img.name);
-                await fileRef.put(img)
-                setCardData({
+                /* setCardData({
                     title: '',
+                    image: '',
                     price: '',
                     discribe: '',
                     discount: false
-                });
+                }); */
                 setRsStatus(RequestState.success);
                 history.push('/')
             }catch(e){
@@ -61,7 +61,7 @@ export const AddItem = () => {
         }
         console.log("data sended");
     }
-
+    console.log(cardData)
     return (
         <div className="addCart">
             <div className="card-block">
@@ -78,7 +78,7 @@ export const AddItem = () => {
                 <div>
                     Discribe: <textarea value={cardData.discribe} onChange={handleChangeText} className="discribe"/>
                 </div>
-                <button  onClick={handlePostData} className='btn'>Add Cart</button>
+                <button disabled={RequestState === RequestState.request} onClick={handlePostData} className='btn'>Add Cart</button>
             </div>
         </div>
     )
